@@ -23,6 +23,7 @@ function main() {
   aws_configure
   assume_role
   login
+  docker_login
   run_pre_build_script $INPUT_PREBUILD_SCRIPT
   docker_build $INPUT_TAGS $ACCOUNT_URL
   create_ecr_repo $INPUT_CREATE_REPO
