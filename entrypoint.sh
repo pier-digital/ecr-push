@@ -15,6 +15,8 @@ function main() {
   sanitize "${INPUT_REGION}" "region"
   sanitize "${INPUT_ACCOUNT_ID}" "account_id"
   sanitize "${INPUT_REPO}" "repo"
+  sanitize "${INPUT_DOCKERHUB_USERNAME}" "dockerhub_username"
+  sanitize "${INPUT_DOCKERHUB_TOKEN}" "dockerhub_token"
 
   ACCOUNT_URL="$INPUT_ACCOUNT_ID.dkr.ecr.$INPUT_REGION.amazonaws.com"
 
@@ -122,6 +124,11 @@ function run_pre_build_script() {
     $1
     echo "== FINISHED PREBUILD SCRIPT"
   fi
+}
+
+function docker_login() {
+  echo "== AUTHENTICATING TO DOCKERHUB"
+  echo $INPUT_DOCKERHUB_TOKEN | docker login -u $INPUT_DOCKERHUB_USERNAME --password-stdin
 }
 
 function docker_build() {
