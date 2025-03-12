@@ -1,8 +1,8 @@
-name: AWS ECR
-author: Lee Sun-Hyoup <kciter@naver.com>, Pablo Castillo <pablo@castillo.is>
+name: ecr-push
+author: Pier Seguradora
 branding:
   icon: upload-cloud
-  color: orange
+  color: purple
 description: Create Docker images and push into a ECR repository.
 inputs:
   access_key_id:
@@ -46,6 +46,12 @@ inputs:
   dockerfile:
     description: Name of Dockerfile to use
     default: Dockerfile
+  dockerhub_username:
+    description: Docker Hub username
+    required: false
+  dockerhub_token:
+    description: Docker Hub Personal Access Token
+    required: false
   extra_build_args:
     description: Extra flags to pass to docker build (see docs.docker.com/engine/reference/commandline/build)
     default: ''
