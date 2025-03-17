@@ -3,23 +3,26 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: docker login
+      - uses: actions/checkout@v4
+      - name: Fetch chart version
         run: |
-          echo $GCR_TOKEN | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-        env:
-          GCR_TOKEN: ${{ secrets.GCR_TOKEN }}
-
-      - name: build and push latest docker image to GCR
-        run: |
-          docker pull ghcr.io/kciter/aws-ecr-action:latest
-          docker build . --tag ghcr.io/kciter/aws-ecr-action:$GITHUB_SHA --cache-from ghcr.io/kciter/aws-ecr-action:latest
-          docker push ghcr.io/kciter/aws-ecr-action:$GITHUB_SHA
+          echo "TAG_VERSION=$(cat version)" >> $GITHUB_ENV
+        id: tag_version
+      - name: Create Tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.TAG_VERSION }}
+          tag_exists_error: false
+          message: "Latest release"
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.TAG_VERSION }}
+          name: "Release ${{ env.TAG_VERSION }}"
