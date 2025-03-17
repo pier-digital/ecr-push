@@ -1,11 +1,9 @@
-FROM docker:28.0.1
+FROM docker:23.0.6
 
 RUN apk update \
   && apk upgrade \
   && apk add --no-cache --update python3 py3-pip coreutils bash \
   && rm -rf /var/cache/apk/* \
-  && python3 -m venv ~/py_envs \
-  && source ~/py_envs/bin/activate \
   && pip3 install --upgrade pip \
   && pip3 install pyyaml==5.3.1 \
   && pip3 install -U awscli \
