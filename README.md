@@ -36,28 +36,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: docker://ghcr.io/kciter/aws-ecr-action:latest
+    - uses: pier-digital/ecr-push@v1
       with:
         access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+        dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+        dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
         repo: docker/repo
-        region: ap-northeast-2
+        region: us-east-1
         tags: latest,${{ github.sha }}
         create_repo: true
         image_scanning_configuration: true
         set_repo_policy: true
         repo_policy_file: repo-policy.json
-```
-
-If you don't want to use the latest docker image, you can point to any reference in the repo directly.
-
-```yaml
-  - uses: kciter/aws-ecr-action@master
-  # or
-  - uses: kciter/aws-ecr-action@v3
-  # or
-  - uses: kciter/aws-ecr-action@0589ad88c51a1b08fd910361ca847ee2cb708a30
 ```
 
 ## License
