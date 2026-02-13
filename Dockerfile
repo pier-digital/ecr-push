@@ -6,7 +6,7 @@ RUN apk update \
   && rm -rf /var/cache/apk/* \
   && pip3 install --upgrade pip \
   && pip3 install pyyaml==5.3.1 \
-  && pip3 install -U awscli \
+  && pip3 install -U awscli==1.44.38 \
   && apk --purge -v del py3-pip
 
 ADD entrypoint.sh /entrypoint.sh
